@@ -1,11 +1,12 @@
 package texteditor;
 
 import java.io.*;
+import java.util.LinkedList;
 import java.util.Random;
 
 public class Hash {
     public static final int MAXSTR = 256;
-    public static final int MAXTAB = 150000;
+    public static final int MAXTAB = 10000000;
     String[] words = new String[MAXTAB];
     int[] pesos;
 
@@ -15,10 +16,15 @@ public class Hash {
 
     public long h(String s) {
 
-        int i;
+        int i, ci;
         long soma = 0;
+        long charSum = 0;
+
+        for (ci = 0; ci < s.length(); ci++) {
+            charSum += s.charAt(ci);
+        }
         for (i = 0; i < s.length(); i++) {
-            soma += (long) s.charAt(i) * 31 * this.pesos[i];
+            soma += (long) s.charAt(i) * 31 * this.pesos[i] * charSum;
 
         }
         return soma % MAXTAB;
@@ -37,12 +43,21 @@ public class Hash {
             if (!input.contains("%")) {
                 long position = h(input);
                 if (this.words[(int) position] != null) {
-                    nCollision++;
+                    long i = position;
+                    while (this.words[(int) i] != null) {
+                        i++;
+                    }
+
+                    this.words[(int) i] = input;
                 } else {
-                    size++;
+                    if (input == "teste") {
+                        System.out.println(position);
+                    }
                     this.words[(int) position] = input;
+                    System.out.println(this.words[(int) position]);
                 }
             }
+            size++;
             input = buffreader.readLine();
         }
         System.out.println(nCollision);
@@ -52,11 +67,10 @@ public class Hash {
     public int[] geraVetorPesos() {
         int i;
         int[] vetor = new int [MAXSTR];
-        int intervaloInicial = 0;
-        int intervaloFinal = MAXSTR;
+        int intervaloInicial = 50;
         for (i=0 ; i < vetor.length; i++)
         {
-            vetor [i] = getRandomNumberRange(intervaloInicial , intervaloFinal);
+            vetor [i] = getRandomNumberRange(intervaloInicial , MAXSTR);
         }
 
         return vetor;

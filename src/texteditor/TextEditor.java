@@ -4,7 +4,6 @@ import java.awt.*;
 import javax.swing.*;
 import java.io.*;
 import java.awt.event.*;
-import javax.swing.event.DocumentListener;
 import javax.swing.plaf.metal.*;
 import javax.swing.text.*;
 
@@ -151,8 +150,6 @@ public class TextEditor extends JFrame implements ActionListener {
     }
 
     public static void main(String args[]) throws Exception {
-        Hash hash = new Hash();
-        hash.loadWords();
         TextEditor e = new TextEditor();
     }
 
