@@ -13,6 +13,7 @@ public class EventAlert {
     private String word;
     public boolean hasTypeError = false;
     private PopUp popup = new PopUp();
+    String[] suggestions;
 
     public EventAlert(TextEditor editor) {
         this.editor = editor;
@@ -42,7 +43,13 @@ public class EventAlert {
     }
 
     public void makePopUp() {
-        popup.add("Teste");
+        if (this.suggestions != null) {
+            int i = 0;
+            while (i < this.suggestions.length) {
+                if (this.suggestions[i] != null) this.popup.add(this.suggestions[i]);
+                i++;
+            }
+        }
         popup.setFocusable(false);
         popup.show(this.editor.textComponent, this.text.length() + 15, this.text.length() + 15);
         popup.setVisible(true);

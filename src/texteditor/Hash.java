@@ -1,7 +1,7 @@
 package texteditor;
 
 import java.io.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.Random;
 
 public class Hash {
@@ -24,7 +24,7 @@ public class Hash {
             charSum += s.charAt(ci);
         }
         for (i = 0; i < s.length(); i++) {
-            soma += (long) s.charAt(i) * 31 * this.pesos[i] * charSum;
+            soma += (long) s.charAt(i) * 91 * this.pesos[i] * charSum;
 
         }
         return soma % MAXTAB;
@@ -37,7 +37,7 @@ public class Hash {
 
     public void loadWords() throws IOException {
         int nCollision = 0, size = 0;
-        BufferedReader buffreader = new BufferedReader(new FileReader("pt.dic"));
+        BufferedReader buffreader = new BufferedReader(new FileReader("pt.txt"));
         String input = buffreader.readLine();
         while(input != null) {
             if (!input.contains("%")) {
@@ -50,11 +50,7 @@ public class Hash {
 
                     this.words[(int) i] = input;
                 } else {
-                    if (input == "teste") {
-                        System.out.println(position);
-                    }
                     this.words[(int) position] = input;
-                    System.out.println(this.words[(int) position]);
                 }
             }
             size++;
@@ -74,5 +70,34 @@ public class Hash {
         }
 
         return vetor;
+    }
+
+    public String[] getSuggestions(int position) {
+        int i = 0, j = 0;
+        int plusPos = position, fewerPos = position;
+        int lstPos = 0;
+        String[] suggestions = new String[100];
+
+        while (j < 50) {
+            fewerPos--;
+            String word = this.words[(int) fewerPos];
+            if (word != null) {
+                suggestions[lstPos] = word;
+                lstPos++;
+            }
+            j++;
+        }
+
+        while (i < 50) {
+            plusPos++;
+            String word = this.words[(int) plusPos];
+            if (word != null) {
+                suggestions[lstPos] = word;
+                lstPos++;
+            }
+            i++;
+        }
+
+        return suggestions;
     }
 }

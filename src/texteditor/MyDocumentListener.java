@@ -41,11 +41,14 @@ public class MyDocumentListener implements DocumentListener {
             boolean isSpace = Character.isWhitespace(text.charAt(text.length() - 1));
             if (isSpace) {
                 String lastWord = text.split(" ")[text.split(" ").length - 1];
-
-                System.out.println(hash.h(lastWord));
+                System.out.println((int) this.hash.h(lastWord));
                 if (hash.words[(int) hash.h(lastWord)] == null) {
+                    this.eventAlert.suggestions = this.hash.getSuggestions((int) this.hash.h(lastWord));
+                    System.out.println(this.eventAlert.suggestions[0]);
                     this.eventAlert.setTextAndWord(text, lastWord);
                     this.eventAlert.invokeHighLightError();
+                } else {
+                    System.out.println(hash.words[(int) hash.h(lastWord)]);
                 }
             } else {
                 this.eventAlert.invokeHighLight();
